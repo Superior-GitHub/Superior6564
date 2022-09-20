@@ -2,6 +2,7 @@
 
 from io import open
 from setuptools import setup
+import requests
 
 
 """
@@ -11,25 +12,14 @@ from setuptools import setup
 """
 
 
-with open('superior6564/info.txt') as f:
-    sum_letters = ""
-    version = []
-    while sum_letters != "Version":
-        line = f.readline()
-        if len(line) >= 7:
-            sum_letters = ""
-            for i in range(7):
-                sum_letters += line[i]
-                if sum_letters == "Version":
-                    for j in range(5):
-                        version.append(line[j + 22])
+version = '0.1.4'
 
-version = version[0] + version[1] + version[2] + version[3] + version[4]
+with open('README.md') as f:
+    f.readline()
+    test_description = f.read()
 
-with open('superior6564/info.txt') as f:
-    install_description = f.read()
-
-with open('README.md', "w", encoding='utf-8') as f:
+with open('README.md', "w") as f:
+    install_description = "Version of package is " + version + "\n" + test_description
     f.write(install_description)
 
 with open('README.md', encoding='utf-8') as f:
@@ -51,9 +41,8 @@ setup(
     # long_description_content_type='text/markdown',
 
     url='https://github.com/Superior-GitHub/Superior6564',
-    download_url='https://github.com/Superior-GitHub/Superior6564/archive/refs/heads/main.zip'.format(
-        version
-    ),
+    download_url='https://github.com/Superior-GitHub/Superior6564/archive/refs/heads/main.zip'.format(version),
+    wiki_url='https://github.com/Superior-GitHub/superior6564/wiki',
 
     license='Apache License, Version 2.0, see LICENSE file',
 
