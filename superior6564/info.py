@@ -13,7 +13,7 @@ out_1.write(readme_md.content)
 out_1.close()
 
 
-def get_info_superior6564():
+def get_info():
     with open("readme.md") as f:
         version = f.readline()[22:].strip()
     if os.getcwd() == "/content":
@@ -25,4 +25,5 @@ def get_info_superior6564():
                           "License": f.readline(), "Download-URL": f.readline(), }
             print(dictionary["Name"] + dictionary["Version"] + dictionary["Home-Page"] +
                   dictionary["Author"] + dictionary["Author-email"] + dictionary["License"] +
-                  dictionary["Download-URL"] + dictionary["Summary"][9:])
+                  dictionary["Download-URL"] + dictionary["Summary"][9:] +
+                  "In the wiki you will be told how to use the functions of library superior6564: https://github.com/Superior-GitHub/superior6564/wiki")

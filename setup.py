@@ -34,7 +34,7 @@ setup(
     author_email='vip.klochayil@gmail.com',
 
     description=(
-        u'Python library which maybe will help to people.  '
+        u'Python library which maybe will help to people. '
         u'Before using you need to run packages.required()'
     ),
     long_description=long_description,
@@ -42,7 +42,6 @@ setup(
 
     url='https://github.com/Superior-GitHub/Superior6564',
     download_url='https://github.com/Superior-GitHub/Superior6564/archive/refs/heads/main.zip'.format(version),
-    wiki_url='https://github.com/Superior-GitHub/superior6564/wiki',
 
     license='Apache License, Version 2.0, see LICENSE file',
 

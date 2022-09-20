@@ -8,10 +8,11 @@ import sys
 import time
 
 
-def install(package: str):
+def install(package: str, check=True):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
     subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", package])
-    print(f"Библиотека {package} установлена.")
+    if check:
+        print(f"Библиотека {package} установлена.")
 
 
 def pip_upgrade():
@@ -19,7 +20,7 @@ def pip_upgrade():
 
 
 def required():
-    install("python-time")
+    install("python-time", check=False)
     require = ["requests", "opencv-python", "progress", "dearpygui"]
     print("Установка необходимых библиотек...")
     for i in range(len(require)):
