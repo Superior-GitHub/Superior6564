@@ -1,4 +1,4 @@
-Version of package is 0.1.5
+Version of package is 0.1.6
 
 PyPi can have a newer version than GitHub.
 

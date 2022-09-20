@@ -13,7 +13,7 @@ out_1.write(readme_md.content)
 out_1.close()
 
 
-def get_info():
+def get_information():
     with open("readme.md") as f:
         version = f.readline()[22:].strip()
     if os.getcwd() == "/content":

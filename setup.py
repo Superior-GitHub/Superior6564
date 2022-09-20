@@ -12,11 +12,26 @@ import requests
 """
 
 
-version = '0.1.5'
+# version = '0.1.5'
 
 with open('README.md') as f:
-    f.readline()
+    previous_version = f.readline()[22:].strip()
+    if int(previous_version[4]) < 9:
+        previous_num = previous_version[4]
+        new_num = str(int(previous_version[4]) + 1)
+        new_version = previous_version[:-1] + new_num
+    elif int(previous_version[2]) < 9:
+        previous_num = previous_version[2]
+        new_num = str(int(previous_version[2]) + 1)
+        new_version = previous_version[0:2] + new_num + ".0"
+    elif int(previous_version[0]) < 9:
+        previous_num = previous_version[0]
+        new_num = str(int(previous_version[0]) + 1)
+        new_version = new_num + previous_version[1:]
     test_description = f.read()
+
+# version = '0.1.5'
+version = new_version
 
 with open('README.md', "w") as f:
     install_description = "Version of package is " + version + "\n" + test_description
