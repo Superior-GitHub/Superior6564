@@ -27,3 +27,4 @@ def get_information():
                   dictionary["Author"] + dictionary["Author-email"] + dictionary["License"] +
                   dictionary["Download-URL"] + dictionary["Summary"][9:] +
                   "In the wiki you will be told how to use the functions of library superior6564: https://github.com/Superior-GitHub/superior6564/wiki")
+get_information()
