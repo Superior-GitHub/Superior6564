@@ -13,10 +13,18 @@ with open("readme.md", "wb") as f:
 
 def get_info():
     path = os.getcwd() + "/readme.md"
+    line_need = []
+    name_need = ["Name", "Vers", "Desc", "Home", "Down", "Wiki", "Auth", "Lice"]
     with open(path) as f:
-        dictionary = {"Name": f.readline(), "Version": f.readline(), "Description": f.readline(),
-                      "Home-Page": f.readline(), "Download-URL": f.readline(), "Wiki": f.readline(),
-                      "Author": f.readline(), "Author-email": f.readline(), "License": f.readline()}
+        for i in range(19):
+            # line = f.readline().replace("\n", "")
+            line = f.readline()
+            if line[:4] in name_need:
+                line_need.append(line)
+    with open(path) as f:
+        dictionary = {"Name": line_need[0], "Version": line_need[1], "Description": line_need[2],
+                      "Home-Page": line_need[3], "Download-URL": line_need[4], "Wiki": line_need[5],
+                      "Author": line_need[6], "Author-email": line_need[7], "License": line_need[8]}
         print(dictionary["Name"] + dictionary["Version"] + dictionary["Description"] +
               dictionary["Home-Page"] + dictionary["Download-URL"] + dictionary["Wiki"] +
               dictionary["Author"] + dictionary["Author-email"] + dictionary["License"])
