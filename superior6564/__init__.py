@@ -20,8 +20,7 @@
 #                     for j in range(5):
 #                         version.append(line[j + 22])
 
-
-# __author__ = 'Superior_6564'
+__author__ = 'Superior_6564'
 # __version__ = version[0] + version[1] + version[2] + version[3] + version[4]
 # __version__ = version
-# __email__ = 'vip.klochayil@gmail.com'
+__email__ = 'vip.klochayil@gmail.com'
