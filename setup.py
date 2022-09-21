@@ -33,12 +33,12 @@ version = '0.2.0'
 # 0.1.9
 
 with open('README.md') as f:
-    line_name = f.readline()
-    line_version = f.readline()[:9].strip()
-    copy_readme = f.read()
+    line_dict = {"Theme": f.readline(), "Space_1": f.readline(), "Name": f.readline(),
+                 "Space_2": f.readline(), "Version": f.readline()[:9], "Everything_else": f.read()}
 
 with open('README.md', "w") as f:
-    write_readme = line_name + line_version + " " + version + "\n" + copy_readme
+    write_readme = line_dict["Theme"] + line_dict["Space_1"] + line_dict["Name"] + \
+                   line_dict["Space_2"] + line_dict["Version"] + version + "\n" + line_dict["Everything_else"]
     f.write(write_readme)
 
 with open('README.md', encoding='utf-8') as f:
