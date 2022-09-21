@@ -3,21 +3,17 @@
 :license: Apache License, Version 2.0, see LICENSE file
 :copyright: (c) 2022 Superior_6564
 """
+from IPython.display import Image, display
+import requests
 
 
-import os
+with open("degget_elite.jpg", "wb") as f:
+    f.write(requests.get('https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/degit_Elite.jpg').content)
 
 
-def show():
-    if os.getcwd() == "/content":
-        from google.colab.patches import cv2_imshow as imshow
-        import cv2
-        import requests
-        image_degget = requests.get('https://github.com/Superior-GitHub/Superior6564/raw/main/Images/Degget_6564.jpg')
-        out_1 = open("Degget_6564.jpeg", "wb")
-        out_1.write(image_degget.content)
-        out_1.close()
-        degget_img = cv2.imread(r"/content/Degget_6564.jpeg")
-        imshow(degget_img)
-    else:
-        print("Данный метод работает только в Google Colab")
+def show(check: int):
+    if check == 1:
+        display(Image(filename="degget_elite.jpg"))
+    elif check == 0:
+        print("This method only works in web compilers")
+

@@ -3,8 +3,6 @@
 :license: Apache License, Version 2.0, see LICENSE file
 :copyright: (c) 2022 Superior_6564
 """
-
-
 from tkinter import *
 from tkinter import messagebox
 from tkinter.ttk import Combobox
@@ -12,12 +10,11 @@ import itertools
 import requests
 
 
-def gen_ru_words(check: int):
-    russian_nouns_txt = requests.get('https://raw.githubusercontent.com/Superior-GitHub/Superior6564/main/superior6564/russian_nouns.txt')
+with open("russian_nouns.txt", "wb") as f:
+    f.write(requests.get('https://raw.githubusercontent.com/Superior-GitHub/Superior6564/main/superior6564/russian_nouns.txt').content)
 
-    out_1 = open("russian_nouns.txt", "wb")
-    out_1.write(russian_nouns_txt.content)
-    out_1.close()
+
+def gen_ru_words(check: int):
     if check == 1:
         print("Write all of letters which do you have")
         letters = input("Write in this line: ")
@@ -40,7 +37,6 @@ def gen_ru_words(check: int):
                         count += 1
                         count_2 += 1
         print(result)
-
     elif check == 0:
         def generator():
             letters = txt.get()
@@ -62,7 +58,6 @@ def gen_ru_words(check: int):
                             count += 1
                             count_2 += 1
             messagebox.showinfo("Результаты", result)
-
         window = Tk()
         window.title("Линия слова")
         window.geometry('230x120')
