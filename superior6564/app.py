@@ -16,7 +16,7 @@ def run():
     dpg.create_context()
 
     with open("NotoSans-Regular.ttf", "wb") as f:
-        f.write(requests.get('https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/app/NotoSans-Regular.ttf').content)
+        f.write(requests.get('https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/NotoSans-Regular.ttf').content)
 
     big_let_start = 0x00C0  # Capital "A" in cyrillic alphabet
     big_let_end = 0x00DF  # Capital "Я" in cyrillic alphabet
@@ -61,7 +61,7 @@ def run():
             f.write(requests.get('https://raw.githubusercontent.com/Superior-GitHub/Superior6564/main/superior6564/russian_nouns.txt').content)
 
         with open("degget_elite.jpg", "wb") as f:
-            f.write(requests.get('https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/degit_Elite.jpg').content)
+            f.write(requests.get('https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/degget_elite.jpg').content)
 
         width, height, channels, data = dpg.load_image('degget_elite.jpg')
 
@@ -219,6 +219,7 @@ def run():
 
         def upgrade():
             print_name_def("Pip upgrade")
+            dpg.delete_item("pip_upgrade", children_only=True)
             subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip"])
             print("Pip upgraded")
             dpg.add_text(tag="Text of status for pip upgrading", pos=[560, 110], default_value="Pip upgraded", parent="pip_upgrade")
@@ -248,3 +249,5 @@ def run():
     dpg.show_viewport()
     dpg.start_dearpygui()
     dpg.destroy_context()
+
+run()
