@@ -29,7 +29,7 @@ import requests
 #     test_description = f.read()
 # version = new_version
 
-version = '0.2.2'
+version = '0.2.3'
 # 0.1.9
 
 with open('README.md') as f:
