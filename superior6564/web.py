@@ -143,7 +143,7 @@ def show_degget():
 
     with open("degget_elite.jpg", "wb") as f:
         f.write(requests.get(
-            'https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/degit_elite.jpg').content)
+            'https://raw.githubusercontent.com/Superior-GitHub/superior6564/main/superior6564/degget_elite.jpg').content)
 
     display(Image(filename="degget_elite.jpg"))
 
