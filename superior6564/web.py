@@ -9,6 +9,7 @@ import subprocess
 import sys
 from IPython.display import Image, display
 import itertools
+import time
 
 
 def get_info():
@@ -50,7 +51,7 @@ def install_package(package: str, output: bool = True, version: str = None):
     """
     """
     Description:
-        install_package(package: str, check=True) installs package.
+        install_package(package: str, output: bool = True, version: str = None) installs package.
     """
     if version is None:
         try:
@@ -70,6 +71,51 @@ def install_package(package: str, output: bool = True, version: str = None):
         except subprocess.CalledProcessError:
             print("ERROR: Bad name or Bad version.")
             print("Write the correct name or version.")
+
+
+def install_list_packages(packages, output: bool = True, versions=None):
+    """
+    Args:
+        packages: List of packages. List of strings.
+        output (bool): Whether name of packages will be output or not.
+        versions: Versions of packages. List of strings.
+    """
+    """
+    Description:
+        install_list_packages(packages, output: bool = True, versions=None) installs packages.
+    """
+    if versions is None:
+        for i in range(len(packages)):
+            try:
+                subprocess.check_call([sys.executable, "-m", "pip", "install", packages[i]])
+                subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", packages[i]])
+                if output:
+                    time.sleep(2)
+                    print()
+                    print(f"Library {packages[i]} installed.")
+                    print(f"Status: {i + 1} of {len(packages)}.")
+                    print()
+                    time.sleep(2)
+            except subprocess.CalledProcessError:
+                print(f"ERROR with {packages[i]}.")
+                print("ERROR: Bad name or Bad version.")
+                print("Write the correct name or version.")
+    else:
+        for i in range(len(packages)):
+            try:
+                new_package = packages[i] + "==" + versions[i]
+                subprocess.check_call([sys.executable, "-m", "pip", "install", new_package])
+                if output:
+                    time.sleep(2)
+                    print()
+                    print(f"Library {packages[i]}({versions[i]}) installed.")
+                    print(f"Status: {i + 1} of {len(packages)}.")
+                    print()
+                    time.sleep(2)
+            except subprocess.CalledProcessError:
+                print(f"ERROR with {packages[i]}.")
+                print("ERROR: Bad name or Bad version.")
+                print("Write the correct name or version.")
 
 
 def pip_upgrade():
@@ -96,7 +142,8 @@ def show_degget():
     """
 
     with open("degget_elite.jpg", "wb") as f:
-        f.write(requests.get('https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/degit_elite.jpg').content)
+        f.write(requests.get(
+            'https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/degit_elite.jpg').content)
 
     display(Image(filename="degget_elite.jpg"))
 
@@ -112,7 +159,8 @@ def gen_ru_words():
     """
 
     with open("russian_nouns.txt", "wb") as f:
-        f.write(requests.get('https://raw.githubusercontent.com/Superior-GitHub/Superior6564/main/superior6564/russian_nouns.txt').content)
+        f.write(requests.get(
+            'https://raw.githubusercontent.com/Superior-GitHub/Superior6564/main/superior6564/russian_nouns.txt').content)
 
     print("Write all of letters which do you have")
     letters = input("Write in this line: ")

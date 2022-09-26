@@ -2,7 +2,7 @@
 
 Name: superior6564
 
-Version: 0.2.4
+Version: 0.2.5
 
 Description: Python library which maybe will help to people. Before using you need to run packages.required()
 
