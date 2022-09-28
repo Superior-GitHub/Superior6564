@@ -9,7 +9,6 @@ import subprocess
 import sys
 from IPython.display import Image, display
 import itertools
-import time
 
 
 def get_info():
@@ -53,6 +52,7 @@ def install_package(package: str, output: bool = True, version: str = None):
     Description:
         install_package(package: str, output: bool = True, version: str = None) installs package.
     """
+    print(f"Start installing package named {package}")
     if version is None:
         try:
             subprocess.check_call([sys.executable, "-m", "pip", "install", package])
@@ -84,38 +84,15 @@ def install_list_packages(packages, output: bool = True, versions=None):
     Description:
         install_list_packages(packages, output: bool = True, versions=None) installs packages.
     """
-    if versions is None:
-        for i in range(len(packages)):
-            try:
-                subprocess.check_call([sys.executable, "-m", "pip", "install", packages[i]])
-                subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", packages[i]])
-                if output:
-                    time.sleep(2)
-                    print()
-                    print(f"Library {packages[i]} installed.")
-                    print(f"Status: {i + 1} of {len(packages)}.")
-                    print()
-                    time.sleep(2)
-            except subprocess.CalledProcessError:
-                print(f"ERROR with {packages[i]}.")
-                print("ERROR: Bad name or Bad version.")
-                print("Write the correct name or version.")
-    else:
-        for i in range(len(packages)):
-            try:
-                new_package = packages[i] + "==" + versions[i]
-                subprocess.check_call([sys.executable, "-m", "pip", "install", new_package])
-                if output:
-                    time.sleep(2)
-                    print()
-                    print(f"Library {packages[i]}({versions[i]}) installed.")
-                    print(f"Status: {i + 1} of {len(packages)}.")
-                    print()
-                    time.sleep(2)
-            except subprocess.CalledProcessError:
-                print(f"ERROR with {packages[i]}.")
-                print("ERROR: Bad name or Bad version.")
-                print("Write the correct name or version.")
+    for i in range(len(packages)):
+        if versions is None:
+            install_package(package=packages[i], output=output)
+            print(f"Status: {i + 1} of {len(packages)}.")
+            print()
+        else:
+            install_package(package=packages[i], output=output, version=versions[i])
+            print(f"Status: {i + 1} of {len(packages)}.")
+            print()
 
 
 def pip_upgrade():

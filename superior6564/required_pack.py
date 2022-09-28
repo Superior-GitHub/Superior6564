@@ -1,3 +1,8 @@
+"""
+:authors: Superior_6564
+:license: Apache License, Version 2.0, see LICENSE file
+:copyright: (c) 2022 Superior_6564
+"""
 import time
 import subprocess
 import sys
@@ -13,6 +18,7 @@ def install():
         required() installs required packages .
     """
     def install_package(package: str, output: bool = True, version: str = None):
+        print(f"Start installing package named {package}")
         try:
             new_package = package + "==" + version
             subprocess.check_call([sys.executable, "-m", "pip", "install", new_package])

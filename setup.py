@@ -2,7 +2,6 @@
 
 from io import open
 from setuptools import setup, find_packages
-import requests
 
 
 """
@@ -29,7 +28,7 @@ import requests
 #     test_description = f.read()
 # version = new_version
 
-version = '0.2.6'
+version = '0.2.7'
 # 0.1.9
 
 with open('README.md') as f:
