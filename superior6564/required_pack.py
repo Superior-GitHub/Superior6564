@@ -29,8 +29,8 @@ def install():
         else:
             print()
             print(f"Version of {package} is {version_now}.")
-            version_need_change = version_need.replace(".", "")
-            version_now_change = version_now.replace(".", "")
+            version_need_change = int(version_need.replace(".", ""))
+            version_now_change = int(version_now.replace(".", ""))
             if version_now_change >= version_need_change:
                 print(f"It is ok :)")
             elif version_now_change < version_need_change:
@@ -63,4 +63,5 @@ def install():
         install_process(package=package_name, version_need=package_version, version_now=dearpygui.__version__)
     except ModuleNotFoundError:
         install_process(package=package_name, version_need=package_version)
+
 # install()
