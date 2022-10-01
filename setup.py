@@ -28,7 +28,7 @@ from setuptools import setup, find_packages
 #     test_description = f.read()
 # version = new_version
 
-version = '0.2.7'
+version = '0.2.8'
 # 0.1.9
 
 with open('README.md') as f:
@@ -67,13 +67,12 @@ setup(
 
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
-        'Operating System :: OS Independent',
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Developers',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
     ]
 )
