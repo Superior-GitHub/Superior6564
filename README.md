@@ -2,7 +2,7 @@
 
 Name: superior6564
 
-Version: 0.3.0
+Version: 0.3.1
 
 Description: Before using you need to run: from superior6564 import required_pack; required_pack.install()
 
@@ -30,7 +30,7 @@ pip install https://github.com/Superior-GitHub/Superior6564/archive/refs/heads/m
 
 ## Usage
 
-Before using you need to run: from superior6564 import required_pack  required_pack.install()
+Before using you need to run: from superior6564 import required_pack; required_pack.install()
 
 It will check for the necessary libraries and install them if needed.
 

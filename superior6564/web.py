@@ -61,10 +61,6 @@ def return_info():
     return dictionary
 
 
-print_info()
-print(return_info()["Version"])
-
-
 def install_package(package: str, output: bool = True, version: str = None):
     """
     Args:
