@@ -2,9 +2,9 @@
 
 Name: superior6564
 
-Version: 0.2.7
+Version: 0.2.9
 
-Description: Python library which maybe will help to people. Before using you need to run: from superior6564 import required_pack  required_pack.install()
+Description: Before using you need to run: from superior6564 import required_pack; required_pack.install()
 
 Home-page: https://github.com/Superior-GitHub/Superior6564
 

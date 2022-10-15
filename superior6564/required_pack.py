@@ -9,14 +9,9 @@ import sys
 
 def install():
     """
-    Args:
-
-    """
-    """
     Description:
-        install() installs required packages .
+        install() installs required packages.
     """
-
     def install_process(package: str, version_need: str, version_now: str = None):
         if version_now is None:
             print()
@@ -63,5 +58,3 @@ def install():
         install_process(package=package_name, version_need=package_version, version_now=dearpygui.__version__)
     except ModuleNotFoundError:
         install_process(package=package_name, version_need=package_version)
-
-# install()

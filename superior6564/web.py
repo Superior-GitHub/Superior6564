@@ -11,14 +11,10 @@ from IPython.display import Image, display
 import itertools
 
 
-def get_info():
-    """
-    Args:
-
-    """
+def print_info():
     """
     Description:
-        get_info() displays information about the package.
+        print_info() prints information about the package.
     """
 
     with open("readme.md", "wb") as f:
@@ -41,24 +37,50 @@ def get_info():
           dictionary["Author"] + dictionary["Author-email"] + dictionary["License"])
 
 
+def return_info():
+    """
+    Description:
+        return_info() returns information about the package.
+    """
+
+    with open("readme.md", "wb") as f:
+        f.write(requests.get('https://raw.githubusercontent.com/Superior-GitHub/superior6564/main/README.md').content)
+
+    path = os.getcwd() + "/readme.md"
+    line_need = []
+    name_need = ["Name", "Vers", "Desc", "Home", "Down", "Wiki", "Auth", "Lice"]
+    with open(path) as f:
+        for i in range(19):
+            line = f.readline()
+            if line[:4] in name_need:
+                line_need.append(line)
+
+    dictionary = {"Name": line_need[0][6:-1], "Version": line_need[1][9:-1], "Description": line_need[2][13:-1],
+                  "Home-Page": line_need[3][11:-1], "Download-URL": line_need[4][14:-1], "Wiki": line_need[5][6:-1],
+                  "Author": line_need[6][8:-1], "Author-email": line_need[7][14:-1], "License": line_need[8][9:-1]}
+    return dictionary
+
+
+print_info()
+print(return_info()["Version"])
+
+
 def install_package(package: str, output: bool = True, version: str = None):
     """
     Args:
         package (str): Name of package
         output (bool): whether name of package will be output or not.
         version (str): Version of package.
-    """
-    """
     Description:
         install_package(package: str, output: bool = True, version: str = None) installs package.
     """
-    print(f"Start installing package named {package}")
+    print(f"Installation of package ({package}).")
     if version is None:
         try:
             subprocess.check_call([sys.executable, "-m", "pip", "install", package])
             subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", package])
             if output:
-                print(f"Library {package} installed.")
+                print(f"Package {package} installed.")
         except subprocess.CalledProcessError:
             print("ERROR: Bad name or Bad version.")
             print("Write the correct name or version.")
@@ -67,7 +89,7 @@ def install_package(package: str, output: bool = True, version: str = None):
             new_package = package + "==" + version
             subprocess.check_call([sys.executable, "-m", "pip", "install", new_package])
             if output:
-                print(f"Library {package}({version}) installed.")
+                print(f"Package {package}({version}) installed.")
         except subprocess.CalledProcessError:
             print("ERROR: Bad name or Bad version.")
             print("Write the correct name or version.")
@@ -79,8 +101,6 @@ def install_list_packages(packages, output: bool = True, versions=None):
         packages: List of packages. List of strings.
         output (bool): Whether name of packages will be output or not.
         versions: Versions of packages. List of strings.
-    """
-    """
     Description:
         install_list_packages(packages, output: bool = True, versions=None) installs packages.
     """
@@ -97,27 +117,18 @@ def install_list_packages(packages, output: bool = True, versions=None):
 
 def pip_upgrade():
     """
-    Args:
-
-    """
-    """
     Description:
         pip_upgrade() upgrades pip.
     """
-
     subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip"])
+    print("Pip upgraded")
 
 
 def show_degget():
     """
-    Args:
-
-    """
-    """
     Description:
         show_degget() shows image of degget.
     """
-
     with open("degget_elite.jpg", "wb") as f:
         f.write(requests.get('https://raw.githubusercontent.com/Superior-GitHub/superior6564/main/superior6564/degget_elite.jpg').content)
 
@@ -126,14 +137,9 @@ def show_degget():
 
 def gen_ru_words():
     """
-    Args:
-
-    """
-    """
     Description:
         gen_ru_words() generates RU words.
     """
-
     with open("russian_nouns.txt", "wb") as f:
         f.write(requests.get(
             'https://raw.githubusercontent.com/Superior-GitHub/Superior6564/main/superior6564/russian_nouns.txt').content)
