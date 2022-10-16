@@ -11,94 +11,78 @@ from IPython.display import Image, display
 import itertools
 
 
-def print_info():
-    """
-    Description:
-        print_info() prints information about the package.
-    """
-
-    with open("readme.md", "wb") as f:
-        f.write(requests.get('https://raw.githubusercontent.com/Superior-GitHub/superior6564/main/README.md').content)
-
-    path = os.getcwd() + "/readme.md"
-    line_need = []
-    name_need = ["Name", "Vers", "Desc", "Home", "Down", "Wiki", "Auth", "Lice"]
-    with open(path) as f:
-        for i in range(19):
-            line = f.readline()
-            if line[:4] in name_need:
-                line_need.append(line)
-
-    dictionary = {"Name": line_need[0], "Version": line_need[1], "Description": line_need[2],
-                  "Home-Page": line_need[3], "Download-URL": line_need[4], "Wiki": line_need[5],
-                  "Author": line_need[6], "Author-email": line_need[7], "License": line_need[8]}
-    print(dictionary["Name"] + dictionary["Version"] + dictionary["Description"] +
-          dictionary["Home-Page"] + dictionary["Download-URL"] + dictionary["Wiki"] +
-          dictionary["Author"] + dictionary["Author-email"] + dictionary["License"])
-
-
-def return_info():
-    """
-    Description:
-        return_info() returns information about the package.
-    """
-
-    with open("readme.md", "wb") as f:
-        f.write(requests.get('https://raw.githubusercontent.com/Superior-GitHub/superior6564/main/README.md').content)
-
-    path = os.getcwd() + "/readme.md"
-    line_need = []
-    name_need = ["Name", "Vers", "Desc", "Home", "Down", "Wiki", "Auth", "Lice"]
-    with open(path) as f:
-        for i in range(19):
-            line = f.readline()
-            if line[:4] in name_need:
-                line_need.append(line)
-
-    dictionary = {"Name": line_need[0][6:-1], "Version": line_need[1][9:-1], "Description": line_need[2][13:-1],
-                  "Home-Page": line_need[3][11:-1], "Download-URL": line_need[4][14:-1], "Wiki": line_need[5][6:-1],
-                  "Author": line_need[6][8:-1], "Author-email": line_need[7][14:-1], "License": line_need[8][9:-1]}
-    return dictionary
-
-
-def install_package(package: str, output: bool = True, version: str = None):
+def get_info(package: str = "superior6564", mode: str = "print"):
     """
     Args:
-        package (str): Name of package
-        output (bool): whether name of package will be output or not.
-        version (str): Version of package.
+        package (str): Name of package for getting info.
+        mode (str): Mode of getting info ("print", "return" or "all").
     Description:
-        install_package(package: str, output: bool = True, version: str = None) installs package.
+        get_info() gives information about the package.\n
+        Before you can get info about the package, you have to download it.
     """
-    print(f"Installation of package ({package}).")
-    if version is None:
-        try:
-            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-            subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", package])
-            if output:
-                print(f"Package {package} installed.")
-        except subprocess.CalledProcessError:
-            print("ERROR: Bad name or Bad version.")
-            print("Write the correct name or version.")
+    package_show = subprocess.run([sys.executable, "-m", "pip", "show", package], capture_output=True, text=True)
+    if package_show.stderr.split('\n')[0][:30] != "WARNING: Package(s) not found:":
+        lines = package_show.stdout.split('\n')[:-4]
+        dictionary = {"Name": lines[0], "Version": lines[1], "Description": "Description:" + lines[2][8:],
+                      "Home-Page": lines[3], "Author": lines[4], "Author-email": lines[5], "License": lines[6]}
+        if mode == "print" or mode == "return" or mode == "all":
+            if mode == "print" or mode == "all":
+                for name in dictionary:
+                    print(dictionary[name])
+            if mode == "return" or mode == "all":
+                new_dictionary = {"Name": dictionary["Name"][6:], "Version": dictionary["Version"][9:], "Description": dictionary["Description"][13:],
+                                  "Home-Page": dictionary["Home-Page"][11:], "Author": dictionary["Author"][8:],
+                                  "Author-email": dictionary["Author-email"][14:], "License": dictionary["License"][9:]}
+                return new_dictionary
+        else:
+            print("Incorrect mode")
     else:
-        try:
-            new_package = package + "==" + version
-            subprocess.check_call([sys.executable, "-m", "pip", "install", new_package])
-            if output:
-                print(f"Package {package}({version}) installed.")
-        except subprocess.CalledProcessError:
-            print("ERROR: Bad name or Bad version.")
-            print("Write the correct name or version.")
+        print("Before you can get info about the package, you have to download it.")
 
 
-def install_list_packages(packages, output: bool = True, versions=None):
+def install_package(package: str, version: str = None, output: bool = True):
     """
     Args:
-        packages: List of packages. List of strings.
-        output (bool): Whether name of packages will be output or not.
-        versions: Versions of packages. List of strings.
+        package (str): Name of package.
+        version (str|None): Version of package.
+        output (bool): Info about process will be output or not.
     Description:
-        install_list_packages(packages, output: bool = True, versions=None) installs packages.
+        install_package() installs package.
+    """
+    if version is None:
+        if output:
+            print(f"Trying to install package {package}.")
+        install_output = subprocess.run([sys.executable, "-m", "pip", "install", package], capture_output=True, text=True)
+        if install_output.stderr.split('\n')[0][:31] == "ERROR: Could not find a version":
+            print("ERROR: Bad name or Bad version.")
+            print("Write the correct name or version.")
+        else:
+            uprade_output = subprocess.run([sys.executable, "-m", "pip", "install", "--upgrade", package], capture_output=True, text=True)
+            print(f"Package {package} installed.")
+    else:
+        if output:
+            print(f"Trying to install package {package} with version {version}.")
+        new_package = package + "==" + version
+        install_output = subprocess.run([sys.executable, "-m", "pip", "install", new_package], capture_output=True, text=True)
+        if install_output.stderr.split('\n')[0][:31] == "ERROR: Could not find a version":
+            print("ERROR: Bad name or Bad version.")
+            print("Write the correct name or version.")
+        else:
+            if output:
+                if install_output.stdout.split('\n')[0][:29] == "Requirement already satisfied":
+                    print(f"Package {package} with version {version} is already installed.")
+                elif install_output.stdout.split('\n')[0][:10] == "Collecting":
+                    print(f"Package {package} with version {version} installed.")
+
+
+def install_list_packages(packages, versions=None, output: bool = True):
+    """
+    Args:
+        packages (list): List of packages. List of strings.
+        versions (list|None): Versions of packages. List of strings.
+        output (bool): Info about process will be output or not.
+    Description:
+        install_list_packages() installs packages.
     """
     for i in range(len(packages)):
         if versions is None:
@@ -106,7 +90,7 @@ def install_list_packages(packages, output: bool = True, versions=None):
             print(f"Status: {i + 1} of {len(packages)}.")
             print()
         else:
-            install_package(package=packages[i], output=output, version=versions[i])
+            install_package(package=packages[i], version=versions[i], output=output)
             print(f"Status: {i + 1} of {len(packages)}.")
             print()
 
@@ -116,8 +100,11 @@ def pip_upgrade():
     Description:
         pip_upgrade() upgrades pip.
     """
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip"])
-    print("Pip upgraded")
+    pip_version = subprocess.run([sys.executable, "-m", "pip", "--version"], capture_output=True, text=True).stdout.split('\n')[0][4:8]
+    print(f"Version before checking is {pip_version}.")
+    upgrade_pip = subprocess.run([sys.executable, "-m", "pip", "install", "--upgrade", "pip"], capture_output=True, text=True)
+    pip_version = subprocess.run([sys.executable, "-m", "pip", "--version"], capture_output=True, text=True).stdout.split('\n')[0][4:8]
+    print(f"Version after checking and upgrading is {pip_version}.")
 
 
 def show_degget():
@@ -149,7 +136,7 @@ def gen_ru_words():
         for i in range(51300):
             list_of_ru_words.append(f.readline()[0:-1])
         result = ""
-        result += f"Слова из {length_of_words} букв:\n"
+        result += f"Words from {length_of_words} letters:\n"
         words = set(itertools.permutations(letters, r=length_of_words))
         count_2 = 1
         for word in words:
@@ -157,7 +144,7 @@ def gen_ru_words():
             generate_word = "".join(word)
             for j in range(len(list_of_ru_words)):
                 if generate_word == list_of_ru_words[j] and count == 0:
-                    result += f"{count_2} слово: {generate_word}\n"
+                    result += f"{count_2} word: {generate_word}\n"
                     count += 1
                     count_2 += 1
     print(result)

@@ -28,7 +28,7 @@ from setuptools import setup, find_packages
 #     test_description = f.read()
 # version = new_version
 
-version = '0.3.1'
+version = '0.3.2'
 # 0.1.9
 
 with open('README.md') as f:
