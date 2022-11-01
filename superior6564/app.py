@@ -6,20 +6,113 @@
 MIT License
 Copyright (c) 2022 Dear PyGui, LLC
 """
-import dearpygui.dearpygui as dpg
-import webbrowser
-import os
-import requests
-import itertools
-import subprocess
-import sys
 
 
-def run():
+def run(use_internet: str):
+    """
+    Args:
+        use_internet (str): Can app use the internet? ("Yes" or "No").
+    Description:
+        run() runs app.
+    """
+    import subprocess
+    import sys
+    import os
+    import time
+
+    def kill_process(seconds):
+        time.sleep(5)
+        for i in range(seconds):
+            print(f"This app will close in {seconds - i} seconds.")
+            time.sleep(1)
+        exit()
+
+    def check_file(file, have_internet, url=None):
+        if os.path.exists(file):
+            print(f"{file} is okay.")
+        else:
+            if have_internet == "Yes":
+                print(f"{file} is not okay. I will install this...")
+                with open(file, "wb") as new_file:
+                    new_file.write(requests.get(url).content)
+            elif have_internet == "No":
+                print(f"{file} is not okay. I can`t let you go any further.")
+                kill_process(10)
+            else:
+                print("I don`t know what to do :(")
+
+    while use_internet != "Yes" or use_internet != "No":
+        if use_internet == "Yes" or use_internet == "No" or use_internet == "Skip":
+            # if use_internet == "Skip":
+            #     use_internet = "No"
+            files_data = [
+                ["NotoSans-Regular.ttf",
+                 "https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/NotoSans-Regular.ttf"],
+                ["russian_nouns.txt",
+                 "https://raw.githubusercontent.com/Superior-GitHub/Superior6564/main/superior6564/russian_nouns.txt"],
+                ["russian_nouns_without_io.txt",
+                 "https://raw.githubusercontent.com/Superior-GitHub/superior6564/main/superior6564/russian_nouns_without_io.txt"],
+                ["degget_elite.jpg",
+                 "https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/degget_elite.jpg"],
+                ["readme.md", "https://raw.githubusercontent.com/Superior-GitHub/superior6564/main/README.md"]
+            ]
+            if use_internet == "Yes":
+                print(f"---------------------------")
+                print(f"Checking required packages.")
+
+                def install(package):
+                    install_output = subprocess.run([sys.executable, "-m", "pip", "install", package],
+                                                    capture_output=True, text=True)
+                    if install_output.stderr.split("\n")[0][
+                       :111] == "WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken":
+                        print(f"You need the internet to install {package}.")
+                    if install_output.stdout.split('\n')[0][:29] == "Requirement already satisfied":
+                        print(f"Version for {package} is ok :)")
+                    elif install_output.stdout.split('\n')[0][:10] == "Collecting":
+                        print(f"Version for {package} is not ok :(")
+                        print(f"Upgrading version...")
+
+                install("requests==2.28.1")
+                install("dearpygui==1.7.1")
+                print(f"Required packages checked.")
+                print(f"---------------------------")
+                try:
+                    import requests
+                    check_internet = requests.get(
+                        'https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/NotoSans-Regular.ttf').content
+                    print(f"--------------------------")
+                    print(f"Checking required files...")
+                    for i in range(len(files_data)):
+                        check_file(file=files_data[i][0], have_internet=use_internet, url=files_data[i][1])
+                    print(f"Required files checked.")
+                    print(f"--------------------------")
+                except requests.exceptions.ConnectionError:
+                    print(f"You need the internet to install required files. I can`t let you go any further.")
+                    kill_process(10)
+                break
+            elif use_internet == "No" or use_internet == "Skip":
+                if use_internet == "No":
+                    print('If you are running the app for the first time, you need to write "Yes".')
+                if use_internet == "Skip":
+                    print("Mode: Skip")
+                print(f"Version check skipped...")
+                print(f"--------------------------")
+                print(f"Checking required files...")
+                for i in range(len(files_data)):
+                    check_file(file=files_data[i][0], have_internet=use_internet)
+                print(f"Required files checked.")
+                print(f"--------------------------")
+                break
+        else:
+            print("Can I use the internet for checking versions of the required packages and checking required files?")
+            use_internet = input("Write Yes or No: ")
+
+    import dearpygui.dearpygui as dpg
+    import webbrowser
+    import os
+    import itertools
+
     dpg.create_context()
-
-    with open("NotoSans-Regular.ttf", "wb") as f:
-        f.write(requests.get('https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/NotoSans-Regular.ttf').content)
 
     big_let_start = 0x00C0  # Capital "A" in cyrillic alphabet
     big_let_end = 0x00DF  # Capital "Я" in cyrillic alphabet
@@ -73,15 +166,6 @@ def run():
 
     def generator_ru_words():
         print_name_def("generator_ru_words()")
-
-        with open("russian_nouns.txt", "wb") as f:
-            f.write(requests.get('https://raw.githubusercontent.com/Superior-GitHub/Superior6564/main/superior6564/russian_nouns.txt').content)
-
-        with open("russian_nouns_without_io.txt", "wb") as f:
-            f.write(requests.get('https://raw.githubusercontent.com/Superior-GitHub/superior6564/main/superior6564/russian_nouns_without_io.txt').content)
-
-        with open("degget_elite.jpg", "wb") as f:
-            f.write(requests.get('https://github.com/Superior-GitHub/superior6564/raw/main/superior6564/degget_elite.jpg').content)
 
         width, height, channels, data = dpg.load_image('degget_elite.jpg')
 
@@ -249,9 +333,6 @@ def run():
         def open_wiki():
             webbrowser.open_new_tab("https://github.com/Superior-GitHub/superior6564/wiki")
 
-        with open("readme.md", "wb") as f:
-            f.write(requests.get('https://raw.githubusercontent.com/Superior-GitHub/superior6564/main/README.md').content)
-
         path = os.getcwd() + "/readme.md"
         line_need = []
         name_need = ["Name", "Vers", "Desc", "Home", "Down", "Wiki", "Auth", "Lice"]
@@ -261,11 +342,9 @@ def run():
                 line = f.readline()
                 if line[:4] in name_need:
                     line_need.append(line)
-
-        with open(path) as f:
-            dictionary = {"Name": line_need[0], "Version": line_need[1], "Description": line_need[2],
-                          "Home-Page": line_need[3], "Download-URL": line_need[4], "Wiki": line_need[5],
-                          "Author": line_need[6], "Author-email": line_need[7], "License": line_need[8]}
+        dictionary = {"Name": line_need[0], "Version": line_need[1], "Description": line_need[2],
+                      "Home-Page": line_need[3], "Download-URL": line_need[4], "Wiki": line_need[5],
+                      "Author": line_need[6], "Author-email": line_need[7], "License": line_need[8]}
         dpg.add_text(tag="Name", pos=[5, 40], default_value=dictionary["Name"], parent="info_group")
         dpg.add_text(tag="Version", pos=[5, 60], default_value=dictionary["Version"], parent="info_group")
         dpg.add_text(tag="Home-Page", pos=[5, 80], default_value=dictionary["Home-Page"][:10], parent="info_group")
@@ -277,28 +356,28 @@ def run():
         dpg.add_button(tag="Open Home-Page", label="Open", callback=open_home_page, pos=[100, 80], parent="info_group")
         dpg.add_button(tag="Open Download-URL", label="Open", callback=open_download_url, pos=[120, 100], parent="info_group")
         dpg.add_button(tag="Open Wiki", label="Open", callback=open_wiki, pos=[45, 120], parent="info_group")
-        dpg.draw_line(p1=(270, -10), p2=(270, 382), parent="info_group")
-        dpg.draw_line(p1=(-10, 180), p2=(270, 180), parent="info_group")
+        # dpg.draw_line(p1=(270, -10), p2=(270, 382), parent="info_group")
+        # dpg.draw_line(p1=(-10, 180), p2=(270, 180), parent="info_group")
 
     def install_package():
         print_name_def("install_package()")
-
         def get_and_install():
             print_name_def("Install of package")
+            dpg.delete_item("install_info", children_only=True)
+            dpg.delete_item("install_success", children_only=True)
             dpg.delete_item("install_error", children_only=True)
             package = dpg.get_value("Input name of package")
-            try:
-                subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-                subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", package])
-                print(f"Package {package} installed.")
-                dpg.add_text(tag="Good description 1", pos=[285, 160], default_value=f"Package {package} installed.", parent="install_error")
-            except subprocess.CalledProcessError:
+            print(f"Trying to install package {package}.")
+            install_output = subprocess.run([sys.executable, "-m", "pip", "install", package], capture_output=True, text=True)
+            if install_output.stderr.split('\n')[0][:31] == "ERROR: Could not find a version" or install_output.stderr.split('\n')[0][:27] == "ERROR: Invalid requirement:":
                 print("ERROR: Bad name.")
                 print("Write the correct name of the package.")
                 dpg.add_text(tag="Error description 1", pos=[285, 160], default_value="ERROR: Bad name.", parent="install_error")
                 dpg.add_text(tag="Error description 2", pos=[285, 180], default_value="Write the correct name of the package.", parent="install_error")
-            except "Requirement already satisfied":
-                print("Requirement already satisfied")
+            else:
+                uprade_output = subprocess.run([sys.executable, "-m", "pip", "install", "--upgrade", package], capture_output=True, text=True)
+                print(f"Package {package} installed.")
+                dpg.add_text(tag="Good description 1", pos=[285, 160], default_value=f"Package {package} installed.", parent="install_success")
 
         dpg.add_text(tag="Install package", pos=[285, 20], default_value="Install packages:", parent="install_package")
         dpg.add_text(tag="Install package description", pos=[285, 40], default_value="Write the correct name of the package:", parent="install_package")
@@ -308,6 +387,12 @@ def run():
         dpg.draw_line(p1=(270, 180), p2=(550, 180), parent="install_package")
         with dpg.group(tag="install_error"):
             pass
+        with dpg.group(tag="install_info"):
+            pass
+        with dpg.group(tag="install_success"):
+            pass
+        dpg.add_text(tag="Info for install 1", pos=[285, 160], default_value="You can download a specific version.", parent="install_info")
+        dpg.add_text(tag="Info for install 2", pos=[285, 180], default_value="Write in the format: package==version.", parent="install_info")
 
     def pip_upgrade():
         print_name_def("pip_upgrade()")
@@ -315,9 +400,15 @@ def run():
         def upgrade():
             print_name_def("Pip upgrade")
             dpg.delete_item("pip_upgrade", children_only=True)
-            subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip"])
-            print("Pip upgraded")
-            dpg.add_text(tag="Text of status for pip upgrading", pos=[560, 110], default_value="Pip upgraded", parent="pip_upgrade")
+            pip_version = subprocess.run([sys.executable, "-m", "pip", "show", "pip"], capture_output=True, text=True).stdout.split('\n')[1][9:]
+            print(f"Version before upgrading is {pip_version}.")
+            dpg.add_text(tag="Version PIP before upgrading", pos=[560, 110], default_value=f"Version before upgrading is {pip_version}", parent="pip_upgrade")
+            upgrade_pip = subprocess.run([sys.executable, "-m", "pip", "install", "--upgrade", "pip"], capture_output=True, text=True)
+            print("Upgrading...")
+            dpg.add_text(tag="Text of status for pip upgrading", pos=[560, 130], default_value="Upgrading...", parent="pip_upgrade")
+            pip_version = subprocess.run([sys.executable, "-m", "pip", "show", "pip"], capture_output=True, text=True).stdout.split('\n')[1][9:]
+            print(f"Version after upgrading is {pip_version}.")
+            dpg.add_text(tag="Version PIP after upgrading", pos=[560, 150], default_value=f"Version after upgrading is {pip_version}", parent="pip_upgrade")
 
         dpg.add_text(tag="Pip upgrade", pos=[560, 20], default_value="Pip upgrade:", parent="pip_upgrade")
         dpg.add_text(tag="Pip upgrade description", pos=[560, 40], default_value="Click on the button to upgrade pip.", parent="pip_upgrade")
@@ -328,6 +419,9 @@ def run():
 
     with dpg.window(tag='main_window', label="Main", width=820, height=655, no_move=True, no_resize=True, no_close=True):
         dpg.add_text(tag="Information", pos=[5, 20], default_value="Information:")
+        dpg.draw_line(p1=(270, -10), p2=(270, 382), parent="info_group")
+        dpg.draw_line(p1=(-10, 180), p2=(270, 180), parent="info_group")
+        # dpg.add_button(tag="Button for showing info", label="Show info", callback=get_info, pos=[190, 20], parent="info_group")
         get_info()
         generator_ru_words()
         install_package()
@@ -340,7 +434,6 @@ def run():
             pass
         with dpg.group(tag="pip_upgrade"):
             pass
-
     dpg.create_viewport(title='App', width=831, height=655, resizable=False)
     dpg.setup_dearpygui()
     dpg.show_viewport()
