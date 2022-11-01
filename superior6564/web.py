@@ -136,12 +136,13 @@ def show_degget():
     display(Image(filename="degget_elite.jpg"))
 
 
-def gen_ru_words(letters: str = "лупогр", length_of_words: int = 3, mode: str = "Fast"):
+def gen_ru_words(letters: str = "лупогр", length_of_words: int = 3, mode: str = "Fast", printed: bool = True):
     """
     Args:
         letters (str): All the letters which do you have.
         length_of_words (int): Length of words which do you need.
         mode (str): "Fast" - outputs without an "ё"; "Slow" - outputs with an "ё".
+        printed (bool): print result or not (True or False).
     Description:
         gen_ru_words() generates RU words.
     """
@@ -215,5 +216,6 @@ def gen_ru_words(letters: str = "лупогр", length_of_words: int = 3, mode: 
                 for i in range(len(list_of_ru_gen_words)):
                     result += f"{list_of_counts_of_words[i]} слово: {list_of_ru_gen_words[i]}\n"
     result = f"Letters: {letters}.\n" + f"Length of words: {length_of_words}.\n" + f"Mode: {mode}.\n" + result
-    print(result)
+    if printed:
+        print(result)
     return result.split("\n")

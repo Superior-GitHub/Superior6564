@@ -2,7 +2,7 @@
 
 Name: superior6564
 
-Version: 0.3.3
+Version: 0.3.4
 
 Description: Before using you need to run: from superior6564 import required_pack; required_pack.install()
 

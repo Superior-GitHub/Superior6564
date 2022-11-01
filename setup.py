@@ -28,7 +28,7 @@ from setuptools import setup, find_packages
 #     test_description = f.read()
 # version = new_version
 
-version = '0.3.3'
+version = '0.3.4'
 # 0.1.9
 
 with open('README.md') as f:
@@ -48,7 +48,7 @@ setup(
     version=version,
 
     author='Superior_6564',
-    author_email='vip.klochayil@gmail.com',
+    author_email='1327secret1327@gmail.com',
 
     description=(
         u'Before using you need to run: from superior6564 import required_pack; required_pack.install()'
