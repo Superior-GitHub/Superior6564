@@ -6,11 +6,11 @@ Version: 0.3.4
 
 Description: Before using you need to run: from superior6564 import required_pack; required_pack.install()
 
-Home-page: https://github.com/Superior-GitHub/Superior6564
+Home-page: https://github.com/Zapzatron/Superior6564
 
-Download-URL: https://github.com/Superior-GitHub/Superior6564/archive/refs/heads/main.zip
+Download-URL: https://github.com/Zapzatron/Superior6564/archive/refs/heads/main.zip
 
-Wiki: https://github.com/Superior-GitHub/superior6564/wiki
+Wiki: https://github.com/Zapzatron/superior6564/wiki
 
 Author: Superior_6564
 
@@ -26,7 +26,7 @@ pip install superior6564
 
 Or from Github:
 
-pip install https://github.com/Superior-GitHub/Superior6564/archive/refs/heads/main.zip
+pip install https://github.com/Zapzatron/Superior6564/archive/refs/heads/main.zip
 
 ## Usage
 
