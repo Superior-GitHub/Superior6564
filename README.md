@@ -14,7 +14,7 @@ Wiki: https://github.com/Superior-GitHub/superior6564/wiki
 
 Author: Superior_6564
 
-Author-email: vip.klochayil@gmail.com
+Author-email: degget6564business@gmail.com
 
 License: Apache License, Version 2.0, see LICENSE file
 
